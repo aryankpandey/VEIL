@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Browsing</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            max-width: 650px;
+            width: 100%;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2rem;
+            margin-bottom: 1.5rem;
+            color: #d1bdf2;
+        }
+        .disclaimer {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px 30px;
+            text-align: left;
+            margin-bottom: 3rem;
+            color: #bbb;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .disclaimer strong {
+            color: #e0e0e0;
+        }
+        .search-box {
+            width: 100%;
+            padding: 16px 28px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            border: 1px solid #444;
+            background-color: #222;
+            color: white;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .search-box:focus {
+            border-color: #7b5ab0;
+            background-color: #2a2a2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🕵️ VEIL Private</h1>
+        
+        <div class="disclaimer">
+            <p>You have gone private. VEIL will clear your <strong>history, cookies, site data, and cache</strong> once you close all private windows.</p>
+            <p><strong>⚠️ However, Private Mode does NOT make you anonymous.</strong> Your activity might still be visible to:</p>
+            <ul style="margin-top: 5px; margin-bottom: 0;">
+                <li>Websites you visit</li>
+                <li>Your employer or school</li>
+                <li>Your internet service provider (ISP)</li>
+            </ul>
+        </div>
+
+        <form action="https://duckduckgo.com" method="GET">
+            <input type="text" name="q" class="search-box" placeholder="Search privately or enter a URL" autofocus autocomplete="off">
+        </form>
+    </div>
+</body>
+</html>

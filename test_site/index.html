@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Michroma&display=swap');
+
+        :root {
+            --bg-color: #f4f6f8;
+            --text-color: #2a2a2a;
+            --glow-cyan: #baf5f5;
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --input-border: rgba(186, 245, 245, 0.5);
+            --primary-btn: #baf5f5;
+            --primary-text: #0b1114;
+            --secondary-btn: #ffffff;
+            --secondary-text: #5a5a5a;
+            --footer-bg: rgba(230, 230, 230, 0.8);
+            --footer-text: #5a5a5a;
+            --toggle-bg: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0d1215;
+            --text-color: #ffffff;
+            --glow-cyan: #baf5f5;
+            --input-bg: rgba(25, 30, 35, 0.6);
+            --input-border: rgba(186, 245, 245, 0.3);
+            --primary-btn: #baf5f5;
+            --primary-text: #0b1114;
+            --secondary-btn: #202428;
+            --secondary-text: #a0aab0;
+            --footer-bg: rgba(15, 20, 24, 0.95);
+            --footer-text: #8b99a3;
+            --toggle-bg: #202428;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 30%, rgba(94, 204, 211, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 85% 70%, rgba(94, 204, 211, 0.03) 0%, transparent 40%);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Top Right Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background-color: var(--toggle-bg);
+            border-radius: 30px;
+            display: flex;
+            padding: 4px;
+            gap: 4px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: #6a747d;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn.active {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* Center Content */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+            margin-top: -100px;
+        }
+
+        .logo-svg {
+            width: 140px;
+            height: 140px;
+            filter: drop-shadow(0 0 12px rgba(186, 245, 245, 0.4));
+            margin-bottom: 5px;
+        }
+
+        .brand-name {
+            font-family: 'Michroma', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 0.8rem;
+            margin-right: -0.8rem; /* offset for letter spacing */
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(186, 245, 245, 0.3);
+            color: var(--text-color);
+        }
+
+        /* Search Section */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7b8893;
+            width: 22px;
+            height: 22px;
+            pointer-events: none;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(186, 245, 245, 0.15);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+        }
+
+        .search-box::placeholder {
+            color: #7b8893;
+        }
+
+        .search-box:focus {
+            box-shadow: 0 0 30px rgba(186, 245, 245, 0.3);
+            border-color: var(--glow-cyan);
+        }
+
+        /* Action Buttons */
+        .search-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-btn);
+            color: var(--primary-text);
+            box-shadow: 0 0 15px rgba(186, 245, 245, 0.4);
+            font-weight: 600;
+            padding: 10px 30px;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 25px rgba(186, 245, 245, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-btn);
+            color: var(--secondary-text);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2a2f35;
+        }
+
+        /* Protection Badge (Absolute Left) */
+        .protection-badge {
+            position: absolute;
+            left: 40px;
+            bottom: 75px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: #6a747d;
+            z-index: 10;
+        }
+
+        .shield-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--glow-cyan);
+            filter: drop-shadow(0 0 8px rgba(186, 245, 245, 0.6));
+        }
+
+        .protection-badge strong {
+            color: var(--glow-cyan);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 18px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--footer-bg);
+            border-top: 1px solid rgba(255,255,255,0.03);
+            z-index: 5;
+        }
+
+        .credits {
+            font-size: 0.9rem;
+            color: var(--footer-text);
+            margin-bottom: 12px;
+        }
+        
+        .credits strong {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 25px;
+            font-size: 0.8rem;
+            color: var(--footer-text);
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .social-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .social-link:hover {
+            color: var(--text-color);
+        }
+
+    </style>
+</head>
+<body data-theme="dark">
+
+    <div class="theme-toggle">
+        <button class="toggle-btn" id="btn-light" onclick="setTheme('light')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+        <button class="toggle-btn active" id="btn-dark" onclick="setTheme('dark')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+    </div>
+
+    <div class="logo-container">
+        <!-- Recreating the V logo exactly as provided -->
+        <svg class="logo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" stroke="var(--glow-cyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Inner V -->
+                <path d="M45 40 L60 70 L75 40" stroke-width="3.5" />
+                <path d="M52 40 L60 55 L68 40" stroke-width="2" />
+                
+                <!-- Outer abstract V frame -->
+                <path d="M30 35 L60 95 L90 35" stroke-width="4" />
+                
+                <!-- Top Chevrons -->
+                <path d="M50 25 L60 15 L70 25" stroke-width="3.5" />
+                <path d="M40 30 L60 10 L80 30" stroke-width="3.5" />
+                
+                <!-- Left/Right abstract cuts -->
+                <path d="M35 30 L35 50" stroke-width="3" />
+                <path d="M85 30 L85 50" stroke-width="3" />
+
+                <!-- Outer Circle -->
+                <circle cx="60" cy="55" r="45" stroke-width="2" stroke-dasharray="0" opacity="0.6"/>
+            </g>
+        </svg>
+        <div class="brand-name">VEIL</div>
+    </div>
+
+    <form action="https://duckduckgo.com" method="GET" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" name="q" class="search-box" placeholder="Search privately..." autofocus autocomplete="off">
+        </div>
+
+        <div class="search-actions">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="button" class="btn btn-secondary" onclick="document.querySelector('.search-box').focus()">Enter ↵</button>
+        </div>
+    </form>
+
+    <div class="protection-badge">
+        <svg class="shield-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="var(--glow-cyan)" stroke="var(--glow-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" fill="none" stroke="#0b1114" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>VEIL Protection: <strong>Active</strong></span>
+    </div>
+
+    <div class="footer">
+        <div class="credits">Developed by <strong>Aryan Kumar Pandey</strong></div>
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                github.com/aryankpandey
+            </a>
+            <a href="#" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                linkedin.com/in/aryankpandey
+            </a>
+            <a href="#" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                instagram.com/aryanpandeyyy
+            </a>
+            <a href="#" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 3.83l7.61 13.17H4.39L12 5.83z"/></svg>
+                aryankpandey.lovable.app
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            if (theme === 'light') {
+                document.getElementById('btn-light').classList.add('active');
+                document.getElementById('btn-dark').classList.remove('active');
+            } else {
+                document.getElementById('btn-dark').classList.add('active');
+                document.getElementById('btn-light').classList.remove('active');
+            }
+            localStorage.setItem('veil-theme', theme);
+        }
+
+        const savedTheme = localStorage.getItem('veil-theme') || 'dark'; // defaulting to dark this time to match screenshot
+        setTheme(savedTheme);
+    </script>
+</body>
+</html>
