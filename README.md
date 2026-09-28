@@ -1,9 +1,11 @@
 # VEIL Browser
 
-<div align="center">
-  <img src="resources/assets/logo.png" alt="VEIL Logo" width="200" height="200" />
-  <h3>A Fast, Privacy-Focused, and Highly Customizable Python Desktop Browser</h3>
-</div>
+---
+
+<img width="1909" height="971" alt="image" src="https://github.com/user-attachments/assets/08c4c535-44d9-4b07-909a-a58058e1d548" />
+
+---
+
 
 ## Overview
 
